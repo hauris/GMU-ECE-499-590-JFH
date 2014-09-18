@@ -6,10 +6,10 @@ def serial_sim(r,ref,buff):
       for i in range(2,(n-1)):
         checkSum = (buff[i] & 0xff) + checkSum
       if ( (buff[n-1] & 0xff) == (~checkSum & 0xff)):
-        s_id = buff[2] & 0xff
-        s_len = buff[3] & 0xff
-        s_ins = buff[4] & 0xff
-        if( s_ins == 0x20 ): 
+        if( buff[3] == 0x20 ):     
+          s_id = buff[2] & 0xff
+          s_len = buff[3] & 0xff
+          s_ins = buff[4] & 0xff
           s_p0 = buff[5] & 0xff
           s_p1 = buff[6] & 0xff
           val = s_p0 + ((s_p1 & 0x03) << 8)

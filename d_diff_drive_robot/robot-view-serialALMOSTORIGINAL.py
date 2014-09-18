@@ -42,10 +42,7 @@ import actuator_sim as ser
 #-----------------------------------------------------
 
 # Add imports here
-import CalcChkSumFile as ccs
-import PktMkrFile as pmf
-tsimList = []
-fg = 0   # Turn First  # Go straight
+
 
 #-----------------------------------------------------
 #--------[ Do not edit below ]------------------------
@@ -88,105 +85,12 @@ while True:
     # Def:
     # tim.sim[0] = Sim Time
 
-    fs = 20.0   # Hertz
-    tsim = tim.sim[0]
     print 'Sim Time = ', tim.sim[0]
-    
-    tn = tsim + (1.0/fs)
-    
-    #print "BEFORE: tsim = " + repr(tsim) + " " + repr(tn) + " = tn"
-    # Idle Cycle: Wait for Tsample integral time
-    while tsim < tn:
-      t.get(tim)
-      tsim = tim.sim[0]
-    #print "AFTER: tsim = " + repr(tsim) + " " + repr(tn) + " = tn"
-    #print "############################################################"
-
+  
     # Sleeps
-    #time.sleep(0.1)
-    #time.sleep(0.001)   
+    time.sleep(0.1)   
     buff = [0,0,0,0,0,0,0,0]
-    #------------------
-    # PUNCH
-    #buff = [255, 255, 0, 5, 3, 48, 64, 0, 135]
-    #buff = [0xff, 0xff, 0x00, 0x05, 0x03, 0x30, 0x40, 0x00, 0x87]
-    #buff = [0xff, 0xff, 0x00, 0x05, 0x03, 0x30, 0x40, 0x00]
-    #
-    #buff = [255, 255, 254, 5, 3, 48, 64, 0, 137]
-    #------------------
-    # MOVE
-    #buff =  [255, 255, 254, 4, 32, 255, 3, 219]
-    #buff = [0xff, 0xff, 0xfe, 0x04, 0x20, 0xff, 0x03, 0xdb]
-    #buff = ['ff', 'ff', 'fe', '04', '20', 'ff', '03', 'db']
-    """###################################################################
-    # Calc Checksum for given buff
-    #
-    buffT = [255, 255, 254, 5, 3, 48, 64, 0]
-    chksum = ccs.CalcChkSum(buffT)
-    print "chksum = ", chksum
-    quit()
-    """###################################################################
-    # Drive in circles
-    """
-    speed = 512#768 #512
-    buff = pmf.PktMkr(speed, 1)
-    #print "buff = ", buff
     ref = ser.serial_sim(r,ref,buff)
-    #-----
-    speed = 0 #1023 #512
-    buff = pmf.PktMkr(speed, 0)
-    #print "buff = ", buff
-    ref = ser.serial_sim(r,ref,buff)
-    #----- 
-    #buff = [255, 255, 0, 5, 3, 48, 64, 0, 135]
-    #ref = ser.serial_sim(r,ref,buff)
-    """
-
-    #######################################################################
-    # Drive in Squares
-    t.get(tim)
-    tsim = tim.sim[0]
-    #print 'Sim Time = ', tim.sim[0]
-    Tstr = tsim + 7.0
-    #print "Tstr = ", Tstr
-    Ttrn = tsim + 5.0
-    if fg==1:
-    # Go Straight
-      while tsim < Tstr:
-        t.get(tim)
-        tsim = tim.sim[0]
-        print "STRAIGHT-----"
-        #print 'Sim Time = ', tim.sim[0]
-        #print "Tstr = ", Tstr
-        #print "Ttrn = ", Ttrn
-        speed = 1023
-        buff = pmf.PktMkr(speed, 1)
-        ref = ser.serial_sim(r,ref,buff)
-        #-----
-        speed = 1023
-        buff = pmf.PktMkr(speed, 0)
-        ref = ser.serial_sim(r,ref,buff)
-        #----- 
-      fg = 0    # Set flag to turn
-    else:     # fg==0, Turn CCW
-      # Turn CCW=1, CW=0 90 degrees
-      while tsim < Ttrn:
-        t.get(tim)
-        tsim = tim.sim[0]
-        print "TURN^^^^^"
-        #print 'Sim Time = ', tim.sim[0]
-        #print "Tstr = ", Tstr
-        #print "Ttrn = ", Ttrn
-        speed = 0
-        buff = pmf.PktMkr(speed, 1)
-        ref = ser.serial_sim(r,ref,buff)
-        #-----
-        speed = 1023
-        buff = pmf.PktMkr(speed, 0)
-        ref = ser.serial_sim(r,ref,buff)
-        #-----
-      fg = 1     # Set flag to go straight 
-
 
 
 #-----------------------------------------------------
